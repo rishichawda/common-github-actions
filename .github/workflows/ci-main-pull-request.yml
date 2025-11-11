@@ -943,7 +943,7 @@ jobs:
   generate-sbom:
     name: 'Generating SBOM'
     if: ${{ inputs.generate-sbom == true }}
-    uses: chef/common-github-actions/.github/workflows/sbom.yml@rishichawda/pass-the-vars
+    uses: rishichawda/common-github-actions/.github/workflows/sbom.yml@rishichawda/pass-the-vars
     needs: ci-build
     secrets: inherit
     with:
