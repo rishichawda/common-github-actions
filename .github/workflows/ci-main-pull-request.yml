@@ -203,6 +203,21 @@ on:
         required: false
         type: string
         default: 'Chef' 
+      detect-policy-check-fail-on-severities:
+        description: 'Only block SBOM upload on specified severity levels (none, blocker, critical, high, medium, low)'
+        required: false
+        type: string
+        default: 'none'
+      blackduck-break-build:
+        description: 'Prevents build failure on Black Duck policy violations'
+        required: false
+        type: boolean
+        default: false
+      bridge-break:
+        description: 'Prevents build failure on Bridge violations'
+        required: false
+        type: boolean
+        default: false
       blackduck-project-name:
         description: 'BlackDuck project name, typically the repository name'
         required: false
@@ -928,7 +943,7 @@ jobs:
   generate-sbom:
     name: 'Generating SBOM'
     if: ${{ inputs.generate-sbom == true }}
-    uses: chef/common-github-actions/.github/workflows/sbom.yml@main
+    uses: chef/common-github-actions/.github/workflows/sbom.yml@rishichawda/pass-the-vars
     needs: ci-build
     secrets: inherit
     with:
@@ -936,6 +951,9 @@ jobs:
       export-github-sbom: ${{ inputs.export-github-sbom }}
       perform-blackduck-sca-scan: ${{ inputs.perform-blackduck-sca-scan }}
       # generate-blackduck-sbom: ${{ inputs.generate-blackduck-sbom }}  # obsolete, remove TODO
+      detect-policy-check-fail-on-severities: ${{ inputs.detect-policy-check-fail-on-severities }}
+      blackduck-break-build: ${{ inputs.blackduck-break-build }}
+      bridge-break: ${{ inputs.bridge-break }}
       blackduck-project-group-name: ${{ inputs.blackduck-project-group-name }}
       blackduck-project-name: ${{ inputs.blackduck-project-name }}
       generate-msft-sbom: ${{ inputs.generate-msft-sbom }}
